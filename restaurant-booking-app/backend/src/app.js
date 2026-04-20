@@ -3,9 +3,11 @@ const app = express();
 
 app.use(express.json());
 
-app.use('/clientes');
-//app.use('/admin');
-//app.use('/restaurantes')
+import adminRoutes from './routes/admin.routes';
+
+app.use('/admin/', adminRoutes);
+//app.use('/cliente/');
+//app.use('/restaurante/');
 
 
 export default app;
