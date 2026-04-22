@@ -34,7 +34,12 @@ const login = async(req,res,next) => {
             rol: user.rol
        });
 
-
+       /*
+       
+       TERMINAR DE COMPLETAR
+       
+       
+       */ 
 
 
 
