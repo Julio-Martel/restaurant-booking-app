@@ -8,7 +8,15 @@ const obtenerUsuario = async(email,pass) => {
 
 }
 
-export {obtenerUsuario}
+const comprobarMailExistente = async(email) => {
+    const [rows] = await db.query(`
+        SELECT * FROM Usuarios WHERE email = ?
+        `, [email]);
+
+    return rows[0];
+}
+
+export {obtenerUsuario, comprobarMailExistente}
 
 
 
