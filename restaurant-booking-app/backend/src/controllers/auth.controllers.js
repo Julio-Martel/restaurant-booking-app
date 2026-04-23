@@ -49,8 +49,10 @@ const login = async(req,res,next) => {
 }
 
 
-const register = async() => {
-
+const register = async(req,res) => {
+    if(!req.body || Object.keys.length === 0){
+        return res.send('Debe enviar datos en el body');
+    }
 }
 
 
