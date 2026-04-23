@@ -34,22 +34,16 @@ const login = async(req,res,next) => {
             rol: user.rol
        });
 
-       /*
-       
-       TERMINAR DE COMPLETAR
-       
-       
-       */ 
+       res.status.json({
+        mensaje: 'Logeado correctamente.'
+       })
 
-
-
-
-
-
-        next();
+       next();
 
     } catch(error){
-
+        res.status(500).json({
+            mensaje: 'Error del servidor'
+        })
     }
 
 }
