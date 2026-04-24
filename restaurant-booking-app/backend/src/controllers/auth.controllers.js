@@ -1,7 +1,7 @@
 import db from '../config/db.js';
 import jwt from 'jsonwebtoken';
 import brcrypt from 'brcypt';
-import { obtenerUsuario, comprobarMailExistente } from '../models/usuario.model.js';
+import { obtenerUsuario, comprobarMailExistente, agregarUsuario } from '../models/usuario.model.js';
 import { use } from 'react';
 
 
@@ -48,7 +48,6 @@ const login = async(req,res,next) => {
 
 }
 
-
 const register = async(req,res) => {
     if(!req.body || Object.keys.length === 0){
         return res.send('Debe enviar datos en el body');
@@ -63,6 +62,14 @@ const register = async(req,res) => {
     try{
 
         const [rows] = comprobarMailExistente(email);
+
+        if(rows.length !== 0){
+            return res.send('Mail ya en uso')
+        }
+
+        const hashedPass = await brcrypt.hash(pass,10);
+
+        const [rows] = agregarUsuario(nombre,email,hashedPass,rol);
 
 
 
