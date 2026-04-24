@@ -1,7 +1,7 @@
 import db from '../config/db.js';
 import jwt from 'jsonwebtoken';
 import brcrypt from 'brcypt';
-import { obtenerUsuario } from '../models/usuario.model.js';
+import { obtenerUsuario, comprobarMailExistente } from '../models/usuario.model.js';
 import { use } from 'react';
 
 
@@ -32,7 +32,7 @@ const login = async(req,res,next) => {
             id: user.id,
             email: user.email,
             rol: user.rol
-       });
+       },'secreto',{expiresIn :' 1hs'});
 
        res.status.json({
         mensaje: 'Logeado correctamente.'
@@ -53,6 +53,45 @@ const register = async(req,res) => {
     if(!req.body || Object.keys.length === 0){
         return res.send('Debe enviar datos en el body');
     }
+
+    const {nombre,email,pass,rol} = req.body; 
+
+    if(!nombre || !email || !pass || !rol){
+        return res.send('Debe completar todo el body');   
+    }
+
+    try{
+
+        const [rows] = comprobarMailExistente(email);
+
+
+
+
+
+
+    } catch(error){
+        res.status(500).json({
+            mensaje: 'Error del servidor'
+        })
+    }
+
+
+
+
+     /*
+        AGREGAR VERIFICACION DE EMAIL
+     */
+
+
+
+
+    const hashedPass =  await brcrypt.hash(pass,10)
+
+   
+
+
+
+
 }
 
 
