@@ -1,9 +1,7 @@
 import db from '../config/db.js';
 import jwt from 'jsonwebtoken';
-import brcrypt from 'brcypt';
+import bcrypt from 'bcrypt';
 import { obtenerUsuario, comprobarMailExistente, agregarUsuario } from '../models/usuario.model.js';
-import { use } from 'react';
-
 
 const login = async(req,res,next) => {
     if(!req.body || Object.keys.length === 0){
@@ -18,34 +16,36 @@ const login = async(req,res,next) => {
 
     try{
 
-       const [usuarioLogeado] = obtenerUsuario(email,pass);
+       const usuarioLogeado = await obtenerUsuario(email);
     
-       if(usuarioLogeado.length === 0){
+       if(usuarioLogeado === undefined){
         return res.status(404).json({
             mensaje: 'No existe ese usuario'
         })
        }
 
-       const user = usuarioLogeado[0];
+       const compararHash = await bcrypt.compare(pass, usuarioLogeado.pass);
+
+       const user = usuarioLogeado;
 
        const token = await jwt.sign({
             id: user.id,
             email: user.email,
             rol: user.rol
-       },'secreto',{expiresIn :' 1hs'});
+       },'secreto',{expiresIn :'1h'});
 
-       res.status.json({
-        mensaje: 'Logeado correctamente.'
+       res.status(200).json({
+        mensaje: 'Logeado correctamente.',
+        token: token
        })
 
        next();
 
     } catch(error){
-        res.status(500).json({
+        return res.status(500).json({
             mensaje: 'Error del servidor'
         })
     }
-
 }
 
 const register = async(req,res) => {
@@ -60,45 +60,26 @@ const register = async(req,res) => {
     }
 
     try{
+        const rows = await comprobarMailExistente(email);
 
-        const [rows] = comprobarMailExistente(email);
-
-        if(rows.length !== 0){
+        if(rows !== undefined){
             return res.send('Mail ya en uso')
         }
 
-        const hashedPass = await brcrypt.hash(pass,10);
+        const hashedPass = await bcrypt.hash(pass,10);
 
-        const [rows] = agregarUsuario(nombre,email,hashedPass,rol);
+        const resultado = await agregarUsuario(nombre,email,hashedPass,rol);
 
-
-
-
-
+        res.status(200).json({
+            mensaje: 'Usuario logeado',
+            usuario: resultado
+        })
 
     } catch(error){
-        res.status(500).json({
+       return  res.status(500).json({
             mensaje: 'Error del servidor'
         })
     }
-
-
-
-
-     /*
-        AGREGAR VERIFICACION DE EMAIL
-     */
-
-
-
-
-    const hashedPass =  await brcrypt.hash(pass,10)
-
-   
-
-
-
-
 }
 
 
