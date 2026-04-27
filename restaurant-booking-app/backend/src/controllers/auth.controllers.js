@@ -28,7 +28,7 @@ const login = async(req,res,next) => {
 
        const user = usuarioLogeado;
 
-       const token = await jwt.sign({
+       const token = jwt.sign({
             id: user.id,
             email: user.email,
             rol: user.rol
@@ -38,6 +38,9 @@ const login = async(req,res,next) => {
         mensaje: 'Logeado correctamente.',
         token: token
        })
+
+
+
 
        next();
 
@@ -81,6 +84,5 @@ const register = async(req,res) => {
         })
     }
 }
-
 
 export {login, register};
