@@ -39,9 +39,6 @@ const login = async(req,res,next) => {
         token: token
        })
 
-
-
-
        next();
 
     } catch(error){
