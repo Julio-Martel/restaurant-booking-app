@@ -38,9 +38,9 @@ const deleteUsuarios = async(req,res) => {
          })
       }
 
-
-      
-
+      res.status(200).json({
+         mensaje: 'Usuario eliminado'
+      })
 
    } catch(error){
       return res.status(404).json({
