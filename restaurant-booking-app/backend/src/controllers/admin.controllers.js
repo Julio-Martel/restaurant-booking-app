@@ -47,7 +47,6 @@ const deleteUsuarios = async(req,res) => {
          mensaje: 'Usuario no encontrado'
       })
    }
-
 }
 
 export {
