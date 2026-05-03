@@ -1,13 +1,14 @@
-/*
-    falta crear el router de admin
-
-
-
-*/
-
 import express from 'express';
-const router = express.Router();
+import { authToken } from '../middlewares/auth.middleware.js';
+import { permisoAdmin } from '../middlewares/permisos.middlewares.js';
+import { obtenerUsuarios, eliminarUsuario} from '../models/usuario.model.js';
+import { getUsuarios, deleteUsuarios} from '../controllers/admin.controllers.js';
+
+const adminRoutes = express.Router();
+
+adminRoutes.get('/search', authToken, permisoAdmin, getUsuarios);
+adminRoutes.delete('/usuarios/:id', authToken, permisoAdmin, deleteUsuarios);
 
 
 
-export default router;
+export default adminRoutes;
