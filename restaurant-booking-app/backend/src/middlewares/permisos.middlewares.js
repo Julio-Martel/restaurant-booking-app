@@ -15,7 +15,17 @@ const permisoCliente = (req,res,next) => {
     next();
 }
 
+const permisoDueño = (req,res, next) => {
+    if(!req.user.rol !== 'restaurant'){
+        return res.send('Solo el dueño puede crear su restaurante.')
+    }
+
+    next();
+}
+
+
 export {
     permisoAdmin,
-    permisoCliente
+    permisoCliente,
+    permisoDueño
 };
