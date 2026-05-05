@@ -5,6 +5,8 @@ import { crearRestaurante } from './dueño.controllers.js';
 
 const duenioRoutes = express.Router();
 
+
+
 duenioRoutes.post('/', authToken, permisoDuenio, crearRestaurante);
 /*ARREGLAR TEMA DE QUE EL ROL NO COINCIDE POR LO QUE NO PUEDO CREAR UN RESTAURANTE 
 HASTA QUE ARREGLE ESO*/
