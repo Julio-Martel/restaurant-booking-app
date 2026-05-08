@@ -23,6 +23,10 @@ const verRestaurantes = async(req,res) => {
     }
 }
 
+const crearReserva = async(req,res) => {
+    
+}
+
 export {
     verRestaurantes
 }
