@@ -8,5 +8,7 @@ const clienteRoutes = express.Router();
 
 clienteRoutes.get('/search', authToken, permisoCliente, verRestaurantes);
 
+/*Desarrollar la opcion de crear la reserva*/
+
 
 export default clienteRoutes;
