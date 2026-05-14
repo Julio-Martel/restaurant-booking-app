@@ -1,4 +1,5 @@
 import { getRestaurantes } from "./restaurante.model.js";
+import { createReserva } from "../models/reservas.model.js";
 
 const verRestaurantes = async(req,res) => {
     
@@ -24,7 +25,19 @@ const verRestaurantes = async(req,res) => {
 }
 
 const crearReserva = async(req,res) => {
-    
+    const {fecha_hora, cantidad_personas, estado, id_cliente, id_restaurante} = req.body;
+
+    try {
+       const reservaCreada = await createReserva(fecha_hora,cantidad_personas,estado, id_cliente, id_restaurante); 
+
+
+
+        
+
+    } catch(Error){
+        console.log(error)
+    }
+
 }
 
 export {
