@@ -25,21 +25,34 @@ const verRestaurantes = async(req,res) => {
 }
 
 const crearReserva = async(req,res) => {
+    if(!req.body || Object.keys(req.body).length === 0){
+        res.send('Debe mandar algo en el body');
+    }
+    
     const {fecha_hora, cantidad_personas, estado, id_cliente, id_restaurante} = req.body;
+
+    if(!fecha_hora || !cantidad_personas || !estado || !id_cliente || !id_restaurante){
+        res.send('Debe mandar todos los datos');
+    }
 
     try {
        const reservaCreada = await createReserva(fecha_hora,cantidad_personas,estado, id_cliente, id_restaurante); 
 
-
-
-        
+       res.status(200).json({
+         mensaje: 'Reserva creada con exito',
+         reserva: reservaCreada
+       })
 
     } catch(Error){
         console.log(error)
+        res.status(500).json({
+            mensaje: "Error del servidor"
+        })
     }
 
 }
 
 export {
-    verRestaurantes
+    verRestaurantes,
+    crearReserva
 }
