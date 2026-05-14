@@ -9,6 +9,4 @@ const adminRoutes = express.Router();
 adminRoutes.get('/search', authToken, permisoAdmin, getUsuarios);
 adminRoutes.delete('/usuarios/:id', authToken, permisoAdmin, deleteUsuarios);
 
-
-
 export default adminRoutes;
