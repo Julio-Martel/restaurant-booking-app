@@ -43,7 +43,7 @@ const crearReserva = async(req,res) => {
          reserva: reservaCreada
        })
 
-    } catch(Error){
+    } catch(error){
         console.log(error)
         res.status(500).json({
             mensaje: "Error del servidor"
