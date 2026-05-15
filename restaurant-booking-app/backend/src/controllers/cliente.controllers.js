@@ -39,8 +39,7 @@ const crearReserva = async(req,res) => {
        const reservaCreada = await createReserva(fecha_hora,cantidad_personas,estado, id_cliente, id_restaurante); 
 
        res.status(200).json({
-         mensaje: 'Reserva creada con exito',
-         reserva: reservaCreada
+         mensaje: 'Reserva creada con exito'
        })
 
     } catch(error){
