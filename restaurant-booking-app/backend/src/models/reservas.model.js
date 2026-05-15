@@ -6,7 +6,7 @@ const createReserva = async(fecha_hora,cantidad_personas,estado,id_cliente,id_re
 
     const [resultadosRestaurantes] = await db.query(`SELECT * FROM Restaurantes WHERE id = ?`, [id_restaurante]);
 
-    const [fechaOcupadaEstado] = await db.query(`SELECT * FROM Reservas WHERE fecha_hora = ? OR fecha_hora > ?`, [fecha_hora]);
+    const [reservaExistente] = await db.query(`SELECT * FROM Reservas WHERE id_restaurante = ? AND fecha_hora = ?`, [id_restaurante,fecha_hora]);
 
     if(!clienteExiste || !resultadosRestaurantes){
         return res.status(404).json({
@@ -14,9 +14,9 @@ const createReserva = async(fecha_hora,cantidad_personas,estado,id_cliente,id_re
         });
     }
 
-    if(fechaOcupadaEstado.length !== 0){
-        return res.status(400).json({
-            mensaje:'No puede utilizar fechas pasadas o la actual'
+    if(reservaExistente.length === 0){
+        return res.status(404).json({
+            mensaje: 'Fecha ya ocupada para ese restaurante'
         })
     }
 
@@ -32,7 +32,6 @@ const createReserva = async(fecha_hora,cantidad_personas,estado,id_cliente,id_re
     );
 
     return reservaCreada;
-
 }
 
 export {createReserva};
