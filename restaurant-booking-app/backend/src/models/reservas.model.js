@@ -1,26 +1,52 @@
 import db from '../config/db.js';
 
-const createReserva = async(fecha_hora,cantidad_personas,estado,id_cliente,id_restaurante) => {
-    
-    const [clienteExiste] = await db.query(`SELECT * FROM Usuarios WHERE id = ?`,[id_cliente]);
+const createReserva = async(data) => {
 
-    const [resultadosRestaurantes] = await db.query(`SELECT * FROM Restaurantes WHERE id = ?`, [id_restaurante]);
+    const {
+        fecha_hora,
+        cantidad_personas,
+        estado,
+        id_cliente,
+        id_restaurante           
+    } = data;
 
-    const [reservaExistente] = await db.query(`SELECT * FROM Reservas WHERE id_restaurante = ? AND fecha_hora = ?`, [id_restaurante,fecha_hora]);
+    const [clienteExiste] = await db.query(
+        `SELECT * FROM Usuarios WHERE id = ?`,
+        [id_cliente]
+    );
 
-    if(!clienteExiste || !resultadosRestaurantes){
-        return res.status(404).json({
-            mensaje: "Cliente o restaurante inexistente"
-        });
+    if(clienteExiste.length === 0){
+        throw new Error('CLIENTE_NO_EXISTE');
     }
 
-    if(reservaExistente.length === 0){
-        return res.status(404).json({
-            mensaje: 'Fecha ya ocupada para ese restaurante'
-        })
+    const [resultadosRestaurantes] = await db.query(
+        `SELECT * FROM Restaurantes WHERE id = ?`,
+        [id_restaurante]
+    );
+
+    if(resultadosRestaurantes.length === 0){
+        throw new Error('RESTAURANTE_NO_EXISTE');
     }
 
-    const [reservaCreada] = await db.query(`INSERT INTO Reservas(fecha_hora,cantidad_personas,estado,id_cliente,id_restaurante)
+    const [reservaExistente] = await db.query(
+        `SELECT * FROM Reservas 
+         WHERE id_restaurante = ? 
+         AND fecha_hora = ?`,
+        [id_restaurante, fecha_hora]
+    );
+
+    if(reservaExistente.length !== 0){
+        throw new Error('HORARIO_OCUPADO');
+    }
+
+    const [reservaCreada] = await db.query(
+        `INSERT INTO Reservas(
+            fecha_hora,
+            cantidad_personas,
+            estado,
+            id_cliente,
+            id_restaurante
+        )
         VALUES(?,?,?,?,?)`,
         [
             fecha_hora,
