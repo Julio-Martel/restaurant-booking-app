@@ -1,7 +1,7 @@
 import db from "../config/db.js";
 
-const getRestaurantes = async() => {
-    const [rows] = await db.query(`SELECT * FROM Restaurantes`);
+const getRestaurantes = async(id) => {
+    const [rows] = await db.query(`SELECT * FROM Restaurantes where id_usuario = ?`,[id]);
 
     return rows;
 }
@@ -11,7 +11,6 @@ const verificarRestaurante = async(id) => {
 
     return rows;
 }
-
 
 const createRestaurante = async(nombre, direccion, capacidad, id_usuario) => {
     const resultado = db.query(`INSERT INTO Restaurantes(nombre,direccion,capacidad,id_usuario)

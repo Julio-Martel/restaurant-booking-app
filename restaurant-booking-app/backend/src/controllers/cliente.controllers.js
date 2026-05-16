@@ -25,32 +25,51 @@ const verRestaurantes = async(req,res) => {
 }
 
 const crearReserva = async(req,res) => {
-    if(!req.body || Object.keys(req.body).length === 0){
-        res.send('Debe mandar algo en el body');
-    }
-    
-    const {fecha_hora, cantidad_personas, estado, id_cliente, id_restaurante} = req.body;
-
-    if(!fecha_hora || !cantidad_personas || !estado || !id_cliente || !id_restaurante){
-        res.send('Debe mandar todos los datos');
-    }
 
     try {
-       const reservaCreada = await createReserva(fecha_hora,cantidad_personas,estado, id_cliente, id_restaurante); 
 
-       res.status(200).json({
-         mensaje: 'Reserva creada con exito'
-       })
+        if(!req.body || Object.keys(req.body).length === 0){
+            return res.status(400).json({
+                mensaje: 'Debe enviar datos'
+            });
+        }
+
+        const reservaCreada = await createReserva(req.body);
+
+        return res.status(201).json({
+            mensaje: 'Reserva creada',
+            reserva: reservaCreada
+        });
 
     } catch(error){
-        console.log(error)
-        res.status(500).json({
-            mensaje: "Error del servidor"
-        })
+
+        if(error.message === 'CLIENTE_NO_EXISTE'){
+            return res.status(404).json({
+                mensaje: 'Cliente inexistente'
+            });
+        }
+
+        if(error.message === 'RESTAURANTE_NO_EXISTE'){
+            return res.status(404).json({
+                mensaje: 'Restaurante inexistente'
+            });
+        }
+
+        if(error.message === 'HORARIO_OCUPADO'){
+            return res.status(409).json({
+                mensaje: 'Horario ocupado'
+            });
+        }
+
+        console.log(error);
+
+        return res.status(500).json({
+            mensaje: 'Error del servidor'
+        });
+
     }
 
 }
-
 export {
     verRestaurantes,
     crearReserva
