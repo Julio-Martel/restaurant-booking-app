@@ -98,8 +98,13 @@ const verTodasTusReservas = async(req,res) => {
     }
 }
 
+const borrarReserva = async(req,res) => {
+
+}
+
 export {
     verRestaurantes,
     crearReserva,
-    verTodasTusReservas
+    verTodasTusReservas,
+    borrarReserva
 }
