@@ -1,5 +1,5 @@
 import { getRestaurantes } from "./restaurante.model.js";
-import { createReserva, obtenerReservas} from "../models/reservas.model.js";
+import { createReserva, obtenerReservas, deleteReserva} from "../models/reservas.model.js";
 
 const verRestaurantes = async(req,res) => {
     
@@ -99,7 +99,29 @@ const verTodasTusReservas = async(req,res) => {
 }
 
 const borrarReserva = async(req,res) => {
+    const {id_reserva} = req.params;
 
+    try{
+        
+     const eliminaReserva = await deleteReserva(id_reserva);
+        
+     return res.status(202).json({
+        mensaje: `Reserva eliminada`
+     })
+   
+    } catch(error){
+        if(error.message === 'RESERVA NO ENCONTRADA'){
+
+        }
+
+        if(error.message === 'RESERVA ELIMINADA O INEXISTENTE'){
+
+        }
+
+        return res.status(500).json({
+            mensaje: 'Error del servidor'    
+        })
+    }
 }
 
 export {
