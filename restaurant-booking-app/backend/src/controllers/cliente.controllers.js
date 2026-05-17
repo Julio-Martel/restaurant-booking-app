@@ -1,5 +1,5 @@
 import { getRestaurantes } from "./restaurante.model.js";
-import { createReserva } from "../models/reservas.model.js";
+import { createReserva, obtenerReservas} from "../models/reservas.model.js";
 
 const verRestaurantes = async(req,res) => {
     
@@ -70,7 +70,25 @@ const crearReserva = async(req,res) => {
     }
 
 }
+
+const verTodasTusReservas = async(req,res) => {
+    try{
+        const reservas = await obtenerReservas(req.user.id);
+    } catch(error){
+        if(error.message === 'SIN RESERVAS ASIGNADAS'){
+            return res.status(404).json({
+               mensaje: 'No tiene reservas asignadas' 
+            })
+        }
+        
+        return res.status(500).json({
+            mensaje: 'Error del servidor'
+        })
+    }
+}
+
 export {
     verRestaurantes,
-    crearReserva
+    crearReserva,
+    verTodasTusReservas
 }
