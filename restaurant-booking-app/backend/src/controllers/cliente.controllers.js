@@ -74,7 +74,15 @@ const crearReserva = async(req,res) => {
 const verTodasTusReservas = async(req,res) => {
     try{
         const reservas = await obtenerReservas(req.user.id);
+    
+        return res.status(200).json({
+            mensaje: 'Tus reservas',
+            reservasTodas: reservas
+        })
+    
+    
     } catch(error){
+       
         if(error.message === 'SIN RESERVAS ASIGNADAS'){
             return res.status(404).json({
                mensaje: 'No tiene reservas asignadas' 
@@ -82,8 +90,11 @@ const verTodasTusReservas = async(req,res) => {
         }
         
         return res.status(500).json({
-            mensaje: 'Error del servidor'
+            mensaje: 'Error del servidor',
+            error: error
         })
+
+       
     }
 }
 
