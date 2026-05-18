@@ -86,8 +86,19 @@ const deleteReserva = async(id_reserva) => {
     return reservaEliminada;
 }
 
+const cancelReserva = async(id_reserva) => {
+    const [reservaCancelada] = await db.query(`UPDATE Reservas SET estado = ? WHERE id = ?`,[id_reserva, 'cancelada']);
+
+    if(reservaCancelada.length === 0){
+        throw new Error('NO EXISTE ID DE RESERVA');
+    }
+
+    return reservaCancelada;
+
+}
+
 export {
     createReserva,
     obtenerReservas,
-    deleteReserva
+    cancelReserva
 };
