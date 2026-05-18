@@ -39,11 +39,19 @@ const createReserva = async(data) => {
         throw new Error('HORARIO_OCUPADO');
     }
 
+    const restauranteCapacidad = await db.query(`SELECT capacidad FROM Restaurantes WHERE id = ?`,[id_restaurante]);
+    const totalReservasSegunRestaurante = await db.query(`SELECT SUM(cantidad_personas) FROM Reservas WHERE id_Restaurante = ?`,[id_restaurante]);
+
+    const capacidadDisponible = restauranteCapacidad - totalReservasSegunRestaurante;
+
+    if(capacidadDisponible > restauranteCapacidad){
+        throw new Error('LA CANTIDAD DE PERSONAS SUPERA LA CAPACIDAD DEL RESTAURANTE');
+    } 
+
     const [reservaCreada] = await db.query(
         `INSERT INTO Reservas(
             fecha_hora,
             cantidad_personas,
-            estado,
             id_cliente,
             id_restaurante
         )
@@ -51,7 +59,6 @@ const createReserva = async(data) => {
         [
             fecha_hora,
             cantidad_personas,
-            estado, 
             id_cliente, 
             id_restaurante
         ]
