@@ -1,5 +1,5 @@
 import { getRestaurantes } from "./restaurante.model.js";
-import { createReserva, obtenerReservas, deleteReserva} from "../models/reservas.model.js";
+import { createReserva, obtenerReservas, cancelReserva} from "../models/reservas.model.js";
 
 const verRestaurantes = async(req,res) => {
     
@@ -98,7 +98,32 @@ const verTodasTusReservas = async(req,res) => {
     }
 }
 
-const borrarReserva = async(req,res) => {
+const cancelarReserva = async(req,res) => {
+    const {id} = req.params;
+
+    try {
+        const reservaCancelada = await cancelReserva(id);
+
+        return res.status(202).json({
+            mensaje: 'Reserva cancelada con exito.'
+        })
+
+    } catch(error){
+        if(error.message === 'NO EXISTE ID DE RESERVA'){
+           return res.status(404).json({
+             mensaje: 'ID inexistente'
+           }) 
+        }
+    
+        return res.status(500).json({
+            mensaje: 'Error del servidor'
+        })
+    }
+}
+
+
+
+/*const borrarReserva = async(req,res) => {
     const {id} = req.params;
 
     try{
@@ -127,11 +152,13 @@ const borrarReserva = async(req,res) => {
             mensaje: 'Error del servidor'    
         })
     }
-}
+
+
+}*/
 
 export {
     verRestaurantes,
     crearReserva,
     verTodasTusReservas,
-    borrarReserva
+    cancelarReserva
 }
