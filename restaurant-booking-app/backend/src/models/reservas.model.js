@@ -46,9 +46,8 @@ const createReserva = async(data) => {
 
     /*PRIMERO CALCULAR DE RESTAR LA CAPACIDAD DEL RESTAURA MENOS LA CANTIDAD SOLICITADA. LUEGO OBTENER EL TOTAL DE RESERVAS DE TODOS LOS QUE SELECCIONAROM
     ESE RESTARUANTE, LUEGO SI LA CAPACIDAD DE TODOS SUPERA LA DEL RESTAURANTE ENTONCES YA NO ESTA DISPONIBÑE*/
-
-
-    if(restauranteCapacidad[0].capacidad < capacidadDisponible){
+    
+    if(cantidad_personas > capacidadDisponible.total){
         throw new Error('LA CANTIDAD DE PERSONAS SUPERA LA CAPACIDAD DEL RESTAURANTE');
     } 
 
