@@ -60,4 +60,32 @@ const createReserva = async(data) => {
     return reservaCreada;
 }
 
-export {createReserva};
+const obtenerReservas = async(id_usuario) => {
+    const [todasLasReservas] = await db.query(`SELECT * FROM Reservas WHERE id_cliente = ?`,[id_usuario]);  
+
+    if(todasLasReservas.length === 0){
+        throw new Error('SIN RESERVAS ASIGNADAS')   
+    }
+
+    return todasLasReservas;
+}
+
+const deleteReserva = async(id_reserva) => {
+     const [reservaEliminada] = await db.query(`DELETE FROM Reservas WHERE id = ?`,[id_reserva]);
+
+    if(reservaEliminada.length === 0){
+        throw new Error(`RESERVA NO ENCONTRADA`);
+    }
+
+    if(reservaEliminada.affectedRows === 0){
+        throw new Error(`RESERVA ELIMINADA O INEXISTENTE`);
+    }
+
+    return reservaEliminada;
+}
+
+export {
+    createReserva,
+    obtenerReservas,
+    deleteReserva
+};
