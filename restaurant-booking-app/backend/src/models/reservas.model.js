@@ -39,12 +39,16 @@ const createReserva = async(data) => {
         throw new Error('HORARIO_OCUPADO');
     }
 
-    const restauranteCapacidad = await db.query(`SELECT capacidad FROM Restaurantes WHERE id = ?`,[id_restaurante]);
-    const totalReservasSegunRestaurante = await db.query(`SELECT SUM(cantidad_personas) FROM Reservas WHERE id_Restaurante = ?`,[id_restaurante]);
+    const [restauranteCapacidad] = await db.query(`SELECT capacidad FROM Restaurantes WHERE id = ?`,[id_restaurante]);
+    const [totalReservasSegunRestaurante] = await db.query(`SELECT SUM(cantidad_personas) AS total FROM Reservas WHERE id_Restaurante = ?`,[id_restaurante]);
 
-    const capacidadDisponible = restauranteCapacidad - totalReservasSegunRestaurante;
+    const capacidadDisponible = restauranteCapacidad[0].capacidad - totalReservasSegunRestaurante[0].total;
 
-    if(capacidadDisponible > restauranteCapacidad){
+    /*PRIMERO CALCULAR DE RESTAR LA CAPACIDAD DEL RESTAURA MENOS LA CANTIDAD SOLICITADA. LUEGO OBTENER EL TOTAL DE RESERVAS DE TODOS LOS QUE SELECCIONAROM
+    ESE RESTARUANTE, LUEGO SI LA CAPACIDAD DE TODOS SUPERA LA DEL RESTAURANTE ENTONCES YA NO ESTA DISPONIBÑE*/
+
+
+    if(restauranteCapacidad[0].capacidad < capacidadDisponible){
         throw new Error('LA CANTIDAD DE PERSONAS SUPERA LA CAPACIDAD DEL RESTAURANTE');
     } 
 
