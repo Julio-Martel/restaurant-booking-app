@@ -99,23 +99,28 @@ const verTodasTusReservas = async(req,res) => {
 }
 
 const borrarReserva = async(req,res) => {
-    const {id_reserva} = req.params;
+    const {id} = req.params;
 
     try{
         
-     const eliminaReserva = await deleteReserva(id_reserva);
+     const eliminaReserva = await deleteReserva(id);
         
      return res.status(202).json({
         mensaje: `Reserva eliminada`
      })
    
     } catch(error){
-        if(error.message === 'RESERVA NO ENCONTRADA'){
 
+        if(error.message === 'RESERVA NO ENCONTRADA'){
+            return res.status(404).json({
+                mensaje: 'Reserva no encontrada'
+            })
         }
 
         if(error.message === 'RESERVA ELIMINADA O INEXISTENTE'){
-
+            return res.status(409).json({
+                mensaje: 'Reserva ya borrada'
+            })
         }
 
         return res.status(500).json({
