@@ -6,16 +6,16 @@ import { verRestaurantes, crearReserva, verTodasTusReservas, borrarReserva} from
 
 const clienteRoutes = express.Router();
 
-//EL CLIENTE PODRA VER TODOS LOS RESTAURANTES
+//PARA VER TODOS LOS RESTAURANTES
 clienteRoutes.get('/search', authToken, permisoCliente, verRestaurantes);
 
-//EL CLIENTE PODRA VER TODAS SUS RESERVAS
+//PARA CREAR UNA RESERVA
 clienteRoutes.post('/', authToken, permisoCliente, crearReserva);
 
-//EL CLIENTE PODRA VER TODAS SUS RESERVAS
+//PARA VER TODAS LAS RESERVAS HECHAS POR EL CLIENTE
 clienteRoutes.get('/reservas', authToken, permisoCliente, verTodasTusReservas);
 
-
+//EL CLIENTE
 
 //clienteRoutes.delete('/:id', authToken, permisoCliente,borrarReserva)
 
