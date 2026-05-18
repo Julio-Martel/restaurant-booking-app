@@ -15,7 +15,10 @@ clienteRoutes.post('/', authToken, permisoCliente, crearReserva);
 //PARA VER TODAS LAS RESERVAS HECHAS POR EL CLIENTE
 clienteRoutes.get('/reservas', authToken, permisoCliente, verTodasTusReservas);
 
-//EL CLIENTE
+//CANCELAR UNA RESERVA
+clienteRoutes.patch('/:id', authToken, permisoCliente, /* agregar aqui el controller de cancelar la reserva */ );
+
+
 
 //clienteRoutes.delete('/:id', authToken, permisoCliente,borrarReserva)
 
