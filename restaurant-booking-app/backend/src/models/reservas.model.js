@@ -71,7 +71,9 @@ const obtenerReservas = async(id_usuario) => {
 }
 
 const deleteReserva = async(id_reserva) => {
-     const [reservaEliminada] = await db.query(`DELETE FROM Reservas WHERE id = ?`,[id_reserva]);
+     const [reservaEliminada] = await db.query(`DELETE FROM Reservas 
+        WHERE id = ?`,
+        [id_reserva]);
 
     if(reservaEliminada.length === 0){
         throw new Error(`RESERVA NO ENCONTRADA`);
