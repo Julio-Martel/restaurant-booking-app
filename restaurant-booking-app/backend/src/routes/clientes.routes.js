@@ -4,7 +4,6 @@ import { permisoCliente } from '../middlewares/permisos.middlewares.js';
 import { getRestaurantes } from '../controllers/restaurante.model.js';
 import { verRestaurantes, crearReserva, verTodasTusReservas, borrarReserva} from '../controllers/cliente.controllers.js';
 
-
 const clienteRoutes = express.Router();
 
 clienteRoutes.get('/search', authToken, permisoCliente, verRestaurantes);
