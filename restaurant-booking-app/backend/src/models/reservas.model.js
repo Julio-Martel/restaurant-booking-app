@@ -40,16 +40,53 @@ const createReserva = async(data) => {
     }
 
     const [restauranteCapacidad] = await db.query(`SELECT capacidad FROM Restaurantes WHERE id = ?`,[id_restaurante]);
-    const [totalReservasSegunRestaurante] = await db.query(`SELECT SUM(cantidad_personas) AS total FROM Reservas WHERE id_Restaurante = ?`,[id_restaurante]);
+    let [totalReservasSegunRestaurante] = await db.query(`SELECT SUM(cantidad_personas) AS total FROM Reservas WHERE id_Restaurante = ?`,[id_restaurante]);
 
+
+    if(totalReservasSegunRestaurante[0].total === null){
+        totalReservasSegunRestaurante[0].total = 0;
+    }
+    
     const capacidadDisponible = restauranteCapacidad[0].capacidad - totalReservasSegunRestaurante[0].total;
 
-    /*PRIMERO CALCULAR DE RESTAR LA CAPACIDAD DEL RESTAURA MENOS LA CANTIDAD SOLICITADA. LUEGO OBTENER EL TOTAL DE RESERVAS DE TODOS LOS QUE SELECCIONAROM
-    ESE RESTARUANTE, LUEGO SI LA CAPACIDAD DE TODOS SUPERA LA DEL RESTAURANTE ENTONCES YA NO ESTA DISPONIBÑE*/
+    if(cantidad_personas > capacidadDisponible){
+        throw new Error(`NO HAY LUGARES`)
+    }
 
-    if(cantidad_personas > capacidadDisponible.total){
-        throw new Error('NO HAY LUGARES DISPONIBLES');
-    } 
+    /*
+    
+        cantidad_total = 50;
+        
+        yo_reservo = 40;
+
+        si libres = cantidad_total - total_en_la_bd;
+
+        si yo reservo > libres entonces corto la funcion,
+        pero ahora digamos,
+        si ya hay reservas por ejemplo, asignamos los 40
+
+
+        >>>> libres = cantidad_total - total_en_la_bd,
+                = 50 - 40
+        entonces 
+        libres = 10(nueva cantidad al hjacer otra reserva)
+
+        yo_reservo = 20
+
+        si yo_reservo > libres entonces no hay lugares
+        como 20 > 10 entonces se termina,
+
+        pero si ingreso 5 por ej
+
+        entonces ahi lo guardo
+
+        tota en la bd seria de 45
+
+    
+    */
+
+
+
 
     const [reservaCreada] = await db.query(
         `INSERT INTO Reservas(
