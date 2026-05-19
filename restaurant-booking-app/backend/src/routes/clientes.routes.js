@@ -18,17 +18,4 @@ clienteRoutes.get('/reservas', authToken, permisoCliente, verTodasTusReservas);
 //CANCELAR UNA RESERVA
 clienteRoutes.patch('/:id', authToken, permisoCliente, cancelarReserva);
 
-/*
-
-    PARA CREAR LA RESERVA SE DEBE AGREGAR LAS VALIDACIONES DE
-    LA CANTIDAD PERMITIDA POR EL RESTAURANTE.
-
-    Y ACTUALIZAR EL ESTADO DE LA RESERVA
-
-    SE DEBERAN RESTARLE LUGARES AL RESTAURANTE UNA VEZ CONFIRMADA LA RESERVA
-
-
-*/
-
-
 export default clienteRoutes;
