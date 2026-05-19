@@ -84,7 +84,7 @@ const obtenerReservas = async(id_usuario) => {
     return todasLasReservas;
 }
 
-const deleteReserva = async(id_reserva) => {
+/*const deleteReserva = async(id_reserva) => {
      const [reservaEliminada] = await db.query(`DELETE FROM Reservas 
         WHERE id = ?`,
         [id_reserva]);
@@ -98,7 +98,7 @@ const deleteReserva = async(id_reserva) => {
     }
 
     return reservaEliminada;
-}
+}*/
 
 const cancelReserva = async(id_reserva) => {
     const [reservaCancelada] = await db.query(`UPDATE Reservas SET estado = ? WHERE id = ?`,[id_reserva, 'cancelada']);
