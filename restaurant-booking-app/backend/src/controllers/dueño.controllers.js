@@ -1,4 +1,4 @@
-import { createRestaurante, verificarRestaurante, getRestaurantes } from "./restaurante.model.js";
+import { createRestaurante, verificarRestaurante, verRestaurantesPorId } from "./restaurante.model.js";
 
 const crearRestaurante = async(req,res) => {
     if(!req.body || Object.keys(req.body).length === 0){
@@ -13,7 +13,7 @@ const crearRestaurante = async(req,res) => {
 
     try {
 
-        const rows = await verificarRestaurante(id_usuario);
+        const rows = await verRestaurantesPorId(id_usuario);
         
         if(rows === undefined){
             return res.status(404).json({
@@ -54,7 +54,32 @@ const obtenerRestaurantes = async(req,res) => {
     }
 }
 
+const verSusRestaurantes = async(req,res) => {
+    try {
+
+        const restaurantes = await verRestaurantesPorId(req.user.id);
+
+        return res.status(202).json({
+            mensaje: 'Todos sus restaurantes',
+            restaurantes: restaurantes
+        })
+
+    } catch(error){
+        if(error.message === 'NO TIENE RESTAURANTES CON SU ID'){
+            return res.status(404).json({
+                mensaje: 'No hay restaurantes mediante ese ID'
+            })
+        }
+    
+        res.status(500).json({
+            mensaje: 'ERROR DEL SERVIDOR'
+        })
+    
+    }   
+}
+
 export {
     crearRestaurante,
-    obtenerRestaurantes
+    obtenerRestaurantes,
+    verSusRestaurantes
 };
