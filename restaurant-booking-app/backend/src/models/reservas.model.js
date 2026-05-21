@@ -84,22 +84,6 @@ const obtenerReservas = async(id_usuario) => {
     return todasLasReservas;
 }
 
-/*const deleteReserva = async(id_reserva) => {
-     const [reservaEliminada] = await db.query(`DELETE FROM Reservas 
-        WHERE id = ?`,
-        [id_reserva]);
-
-    if(reservaEliminada.length === 0){
-        throw new Error(`RESERVA NO ENCONTRADA`);
-    }
-
-    if(reservaEliminada.affectedRows === 0){
-        throw new Error(`RESERVA ELIMINADA O INEXISTENTE`);
-    }
-
-    return reservaEliminada;
-}*/
-
 const cancelReserva = async(id_reserva) => {
     const [reservaCancelada] = await db.query(`UPDATE Reservas SET estado = ? WHERE id = ?`,[id_reserva, 'cancelada']);
 
