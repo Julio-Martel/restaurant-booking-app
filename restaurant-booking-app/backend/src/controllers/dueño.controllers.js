@@ -79,10 +79,11 @@ const verSusRestaurantes = async(req,res) => {
 }
 
 const actualizarRestaurante = async(req,res) => {
-    const {id} = req.query;
+    const {id} = req.params;
+    const datosAActualizar = req.body;
     
     try {
-        const restauranteActualizado = await updateRestaurante(id);
+        const restauranteActualizado = await updateRestaurante(id,datosAActualizar);
 
 
 

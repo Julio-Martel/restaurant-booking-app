@@ -36,8 +36,26 @@ const createRestaurante = async(nombre, direccion, capacidad, id_usuario) => {
     return resultado;    
 }
 
-const updateRestaurante = async(id) => {
+const updateRestaurante = async(id,data) => {
 
+    const datosParaActualizar = [];
+    const datosParaActualizarFormatoTexto = datosParaActualizar.join(", ") // ESTO CONVIERTE UN ARREGLO A FORMATO TEXTO
+
+
+
+    if(data.nombre !== null){
+        datosParaActualizar.push(data.nombre);
+    }
+
+    if(data.direccion !== null){
+        datosParaActualizar.push(data.direccion);
+    }
+
+    /*LUEGO COMPLETAR PARA IMPLEMENTAR LA LOGICA*/
+
+
+    const [resultado] = await db.query(`UPDATE Restaurante SET nombre = ? direccion = ? id_usuario = ? WHERE id = ?`,
+        [])
 }
 
 export {
