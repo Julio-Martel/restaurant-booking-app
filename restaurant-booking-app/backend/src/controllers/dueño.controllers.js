@@ -1,4 +1,4 @@
-import { createRestaurante, verificarRestaurante, verRestaurantesPorId } from "./restaurante.model.js";
+import { createRestaurante, verificarRestaurante, verRestaurantesPorId, updateRestaurante } from "./restaurante.model.js";
 
 const crearRestaurante = async(req,res) => {
     if(!req.body || Object.keys(req.body).length === 0){
@@ -57,7 +57,7 @@ const obtenerRestaurantes = async(req,res) => {
 const verSusRestaurantes = async(req,res) => {
     try {
 
-        const restaurantes = await verRestaurantesPorId(req.user.id);
+        const restaurantes = await verRestaurantesPorId(req.usuario.id);
 
         return res.status(202).json({
             mensaje: 'Todos sus restaurantes',
@@ -78,8 +78,25 @@ const verSusRestaurantes = async(req,res) => {
     }   
 }
 
+const actualizarRestaurante = async(req,res) => {
+    const {id} = req.query;
+    
+    try {
+        const restauranteActualizado = await updateRestaurante(id);
+
+
+
+
+    } catch(error){
+
+    }
+}
+
+
+
 export {
     crearRestaurante,
     obtenerRestaurantes,
-    verSusRestaurantes
+    verSusRestaurantes,
+    actualizarRestaurante
 };

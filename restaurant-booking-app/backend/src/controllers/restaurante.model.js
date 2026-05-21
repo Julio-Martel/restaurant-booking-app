@@ -16,7 +16,6 @@ const verRestaurantesPorId = async(id) => {
     return rows;
 }
 
-
 const verificarRestaurante = async(id) => {
     const rows = db.query(`SELECT * FROM Usuarios WHERE id = ?`,[id]);
 
@@ -24,20 +23,26 @@ const verificarRestaurante = async(id) => {
 }
 
 const createRestaurante = async(nombre, direccion, capacidad, id_usuario) => {
+
+    const [restauranteExistenteMedianteNombre] = await db.query(`SELECT * FROM Restaurante WHERE nombre = ?`,[nombre]);
+
+    if(restauranteExistenteMedianteNombre.length !== 0){
+        throw new Error('YA EXISTE UN RESTAURANTE CON ESE NOMBRE');
+    }
+
     const resultado = db.query(`INSERT INTO Restaurantes(nombre,direccion,capacidad,id_usuario)
         VALUES(?,?,?,?)`,[nombre, direccion, capacidad, id_usuario]);
-
-        /*FALTAN AGREGAR VALIDACIONES COMO EVITAR LA DUPLICACION DEL
-        RESTAURANTE*/
-
-
 
     return resultado;    
 }
 
+const updateRestaurante = async(id) => {
+
+}
 
 export {
     verRestaurantesPorId,
     createRestaurante,
-    verificarRestaurante
+    verificarRestaurante,
+    updateRestaurante
 }
