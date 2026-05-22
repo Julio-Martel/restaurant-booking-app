@@ -28,7 +28,7 @@ const createRestaurante = async(nombre, direccion, capacidad, id_usuario) => {
 
     if(restauranteExistenteMedianteNombre.length !== 0){
         throw new Error('YA EXISTE UN RESTAURANTE CON ESE NOMBRE');
-    }
+    }  
 
     const resultado = db.query(`INSERT INTO Restaurantes(nombre,direccion,capacidad,id_usuario)
         VALUES(?,?,?,?)`,[nombre, direccion, capacidad, id_usuario]);
@@ -41,21 +41,31 @@ const updateRestaurante = async(id,data) => {
     const datosParaActualizar = [];
     const datosParaActualizarFormatoTexto = datosParaActualizar.join(", ") // ESTO CONVIERTE UN ARREGLO A FORMATO TEXTO
 
-
-
     if(data.nombre !== null){
+        data.nombre = 'nombre = ?';
         datosParaActualizar.push(data.nombre);
     }
 
     if(data.direccion !== null){
+        data.direccion = 'direccion = ?'
         datosParaActualizar.push(data.direccion);
     }
 
-    /*LUEGO COMPLETAR PARA IMPLEMENTAR LA LOGICA*/
+    if(data.id_usuario !== null){
+        data.direccion = 'id_usuario = ?';
+        datosParaActualizar.push(data.id_usuario);
+    }
 
+    if(!data.nombre || !data.direccion || !data.id_usuario){
+        throw new Error('DEBE RELLENAR TODOS LOS CAMPOS');
+    }
 
-    const [resultado] = await db.query(`UPDATE Restaurante SET nombre = ? direccion = ? id_usuario = ? WHERE id = ?`,
-        [])
+    if(datosParaActualizarFormatoTexto !== null){
+        const [resultado] = await db.query(`UPDATE Restaurante SET ${datosParaActualizarFormatoTexto} WHERE id = ?`,
+            [datosParaActualizarFormatoTexto, id])
+    
+        return resultado;      
+    }
 }
 
 export {
