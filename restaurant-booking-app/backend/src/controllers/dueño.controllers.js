@@ -94,14 +94,18 @@ const actualizarRestaurante = async(req,res) => {
             })
         }
         
+        if(error.message === 'RESTAURANTE NO ENCONTRADO'){
+            return res.status(404).json({
+                mensaje: 'Restaurante no encontrado'
+            })
+        }
+
         return res.status(500).json({
             mensaje: 'ERROR DEL SERVIDOR'
         })
 
     }
 }
-
-
 
 export {
     crearRestaurante,

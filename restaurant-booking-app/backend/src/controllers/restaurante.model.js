@@ -40,6 +40,12 @@ const updateRestaurante = async(id,data) => {
 
     const datosParaActualizar = [];
     const datosParaActualizarFormatoTexto = datosParaActualizar.join(", ") // ESTO CONVIERTE UN ARREGLO A FORMATO TEXTO
+    const [restauranteEncontrado] = await db.query(`SELECT id FROM Restaurantes WHERE id = ?`,[id]);
+    
+
+    if(restauranteEncontrado.length === 0){
+        throw new Error('RESTAURANTE NO ENCONTRADO')
+    }
 
     if(data.nombre !== null){
         data.nombre = 'nombre = ?';
