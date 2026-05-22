@@ -1,4 +1,5 @@
 import { createReserva, obtenerReservas, cancelReserva} from "../models/reservas.model.js";
+import { verRestaurantes } from "./restaurante.model.js";
 
 const crearReserva = async(req,res) => {
 
@@ -70,7 +71,6 @@ const verTodasTusReservas = async(req,res) => {
             error: error
         })
 
-       
     }
 }
 
@@ -96,6 +96,20 @@ const cancelarReserva = async(req,res) => {
         })
     }
 }
+
+const verTodosLosRestaurantes = async(req,res) => {
+    try{
+        const todosLosRestaurantes = await verRestaurantes();
+
+        return todosLosRestaurantes;
+
+    } catch(error){
+        return res.status(500).json({
+            mensaje: 'ERROR DEL SERVIDOR'
+        })
+    }
+}
+
 
 export {
     crearReserva,

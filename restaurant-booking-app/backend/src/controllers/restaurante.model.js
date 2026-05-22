@@ -1,10 +1,10 @@
 import db from "../config/db.js";
 
-/*const getRestaurantes = async() => {
+const verRestaurantes = async() => {
     const [rows] = await db.query(`SELECT * FROM Restaurantes`);
 
     return rows;
-}*/
+}
 
 const verRestaurantesPorId = async(id) => {
     const [rows] = await db.query(`SELECT *FROM Restaurantes WHERE id_usuario = ?`,[id]);
@@ -75,6 +75,7 @@ const updateRestaurante = async(id,data) => {
 }
 
 export {
+    verRestaurantes,
     verRestaurantesPorId,
     createRestaurante,
     verificarRestaurante,
