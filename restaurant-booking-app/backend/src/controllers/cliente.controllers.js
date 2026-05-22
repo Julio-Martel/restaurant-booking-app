@@ -101,7 +101,10 @@ const verTodosLosRestaurantes = async(req,res) => {
     try{
         const todosLosRestaurantes = await verRestaurantes();
 
-        return todosLosRestaurantes;
+        return res.status(200).json({
+            mensaje: 'Todos los restaurantes',
+            restaurantes: todosLosRestaurantes
+        });
 
     } catch(error){
         return res.status(500).json({
@@ -112,6 +115,7 @@ const verTodosLosRestaurantes = async(req,res) => {
 
 
 export {
+    verTodosLosRestaurantes,
     crearReserva,
     verTodasTusReservas,
     cancelarReserva
