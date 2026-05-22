@@ -85,10 +85,18 @@ const actualizarRestaurante = async(req,res) => {
     try {
         const restauranteActualizado = await updateRestaurante(id,datosAActualizar);
 
-
-
+        return restauranteActualizado;
 
     } catch(error){
+        if(error.message === 'DEBE RELLENAR TODOS LOS CAMPOS'){
+            return res.status(409).json({
+                mensaje: 'Se deben rellenar todos los campos'
+            })
+        }
+        
+        return res.status(500).json({
+            mensaje: 'ERROR DEL SERVIDOR'
+        })
 
     }
 }
