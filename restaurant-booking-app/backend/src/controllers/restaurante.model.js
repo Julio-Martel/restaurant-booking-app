@@ -38,6 +38,10 @@ const createRestaurante = async(nombre, direccion, capacidad, id_usuario) => {
 
 const updateRestaurante = async(id,data) => {
 
+    /*ARREGLAR EL PORQUE SOLO SI INGRESO UN DATO NO ME DEJA CONTINUAR Y EL PORQUE 
+    TIRA ERROR DEL SERVIDOR*/
+
+
     const datosParaActualizar = [];
     const datosParaActualizarFormatoTexto = datosParaActualizar.join(", ") // ESTO CONVIERTE UN ARREGLO A FORMATO TEXTO
     const [restauranteEncontrado] = await db.query(`SELECT id FROM Restaurantes WHERE id = ?`,[id]);
