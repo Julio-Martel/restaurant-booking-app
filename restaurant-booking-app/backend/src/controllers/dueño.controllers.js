@@ -34,26 +34,6 @@ const crearRestaurante = async(req,res) => {
     }
 }
 
-const obtenerRestaurantes = async(req,res) => {
-    try{
-        const resultado = await getRestaurantes(req.user.id);
-
-        if(resultado === undefined){
-            return res.send('No hay restaurantes suyos')
-        }
-
-        res.status(200).json({
-            mensaje: 'Sus restaurantes',
-            restaurantes: resultado
-        })
-    
-    }catch(error){
-        res.status(505).json({
-            mensaje: 'error del servidor'
-        })
-    }
-}
-
 const verSusRestaurantes = async(req,res) => {
     try {
 
@@ -109,7 +89,6 @@ const actualizarRestaurante = async(req,res) => {
 
 export {
     crearRestaurante,
-    obtenerRestaurantes,
     verSusRestaurantes,
     actualizarRestaurante
 };
