@@ -41,34 +41,35 @@ const updateRestaurante = async(id,data) => {
     /*ARREGLAR EL PORQUE SOLO SI INGRESO UN DATO NO ME DEJA CONTINUAR Y EL PORQUE 
     TIRA ERROR DEL SERVIDOR*/
 
-
     const datosParaActualizar = [];
-    const datosParaActualizarFormatoTexto = datosParaActualizar.join(", ") // ESTO CONVIERTE UN ARREGLO A FORMATO TEXTO
+// ESTO CONVIERTE UN ARREGLO A FORMATO TEXTO
     const [restauranteEncontrado] = await db.query(`SELECT id FROM Restaurantes WHERE id = ?`,[id]);
     
+    console.log(data.nombre,data.direccion,data.id_usuario);
 
     if(restauranteEncontrado.length === 0){
         throw new Error('RESTAURANTE NO ENCONTRADO')
     }
 
-    if(data.nombre !== null){
+    if(data.nombre !== undefined){
         data.nombre = 'nombre = ?';
         datosParaActualizar.push(data.nombre);
     }
 
-    if(data.direccion !== null){
+    if(data.direccion !== undefined){
         data.direccion = 'direccion = ?'
         datosParaActualizar.push(data.direccion);
     }
 
-    if(data.id_usuario !== null){
-        data.direccion = 'id_usuario = ?';
+    if(data.id_usuario !== undefined){
+        data.id_usuario = 'id_usuario = ?';
         datosParaActualizar.push(data.id_usuario);
     }
 
-    if(!data.nombre || !data.direccion || !data.id_usuario){
-        throw new Error('DEBE RELLENAR TODOS LOS CAMPOS');
-    }
+  const datosParaActualizarFormatoTexto = datosParaActualizar.join(" ") 
+
+    console.log(datosParaActualizarFormatoTexto)
+
 
     if(datosParaActualizarFormatoTexto !== null){
         const [resultado] = await db.query(`UPDATE Restaurante SET ${datosParaActualizarFormatoTexto} WHERE id = ?`,

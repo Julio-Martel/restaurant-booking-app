@@ -68,12 +68,7 @@ const actualizarRestaurante = async(req,res) => {
         return restauranteActualizado;
 
     } catch(error){
-        if(error.message === 'DEBE RELLENAR TODOS LOS CAMPOS'){
-            return res.status(409).json({
-                mensaje: 'Se deben rellenar todos los campos'
-            })
-        }
-        
+    
         if(error.message === 'RESTAURANTE NO ENCONTRADO'){
             return res.status(404).json({
                 mensaje: 'Restaurante no encontrado'
@@ -81,9 +76,10 @@ const actualizarRestaurante = async(req,res) => {
         }
 
         return res.status(500).json({
-            mensaje: 'ERROR DEL SERVIDOR'
+            mensaje: 'ERROR DEL SERVIDOR',
+            errorEnSi: error
         })
-
+    
     }
 }
 
