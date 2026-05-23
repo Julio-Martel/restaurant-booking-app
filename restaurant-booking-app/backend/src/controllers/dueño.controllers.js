@@ -65,7 +65,10 @@ const actualizarRestaurante = async(req,res) => {
     try {
         const restauranteActualizado = await updateRestaurante(id,datosAActualizar);
 
-        return restauranteActualizado;
+        return res.status(200).json({
+            mensaje: 'Restaurante actualizado',
+            restaurante: restauranteActualizado
+        })
 
     } catch(error){
     

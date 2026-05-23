@@ -42,7 +42,8 @@ const updateRestaurante = async(id,data) => {
     TIRA ERROR DEL SERVIDOR*/
 
     const datosParaActualizar = [];
-// ESTO CONVIERTE UN ARREGLO A FORMATO TEXTO
+    const valores = [];
+    // ESTO CONVIERTE UN ARREGLO A FORMATO TEXTO
     const [restauranteEncontrado] = await db.query(`SELECT id FROM Restaurantes WHERE id = ?`,[id]);
     
     console.log(data.nombre,data.direccion,data.id_usuario);
@@ -52,28 +53,31 @@ const updateRestaurante = async(id,data) => {
     }
 
     if(data.nombre !== undefined){
-        data.nombre = 'nombre = ?';
+        valores.push(data.nombre);
+        data.nombre = `nombre = ?`;
         datosParaActualizar.push(data.nombre);
     }
 
     if(data.direccion !== undefined){
-        data.direccion = 'direccion = ?'
+        valores.push(data.direccion);
+        data.direccion = `direccion = ?`;
         datosParaActualizar.push(data.direccion);
     }
 
     if(data.id_usuario !== undefined){
-        data.id_usuario = 'id_usuario = ?';
+        valores.push(data.id_usuario);
+        data.id_usuario = `id_usuario = ?`;
         datosParaActualizar.push(data.id_usuario);
     }
 
   const datosParaActualizarFormatoTexto = datosParaActualizar.join(" ") 
 
-    console.log(datosParaActualizarFormatoTexto)
+    console.log(typeof datosParaActualizarFormatoTexto)
 
 
-    if(datosParaActualizarFormatoTexto !== null){
-        const [resultado] = await db.query(`UPDATE Restaurante SET ${datosParaActualizarFormatoTexto} WHERE id = ?`,
-            [datosParaActualizarFormatoTexto, id])
+    if(datosParaActualizarFormatoTexto !== undefined){
+        const [resultado] = await db.query(`UPDATE Restaurantes SET ${datosParaActualizarFormatoTexto} WHERE id = ?`,
+            [valores, id])
     
         return resultado;      
     }
