@@ -67,6 +67,15 @@ const updateRestaurante = async(id,data) => {
         datosParaActualizar.push(data.id_usuario);
     }
 
+
+    /*
+        AGREGAR LA VALIDACION DE ID_USUARIO PARA COMPROBAR QUE EXISTA
+        POR LO QUE SI NO EXISTE NO SE PUEDE CREAR HACIENDO QUE LANZE UN ERROR
+    
+    
+    */
+
+
   const datosParaActualizarFormatoTexto = datosParaActualizar.join(" , ") 
 
     if(datosParaActualizarFormatoTexto !== undefined){
