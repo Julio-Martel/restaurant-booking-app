@@ -78,6 +78,13 @@ const actualizarRestaurante = async(req,res) => {
             })
         }
 
+        if(error.message === 'USUARIO INEXISTENTE'){
+            return res.status(404).json({
+                mensaje: 'No existe id de usuario. No puede completar la modificacion'
+            })
+        }
+
+
         return res.status(500).json({
             mensaje: 'ERROR DEL SERVIDOR',
             errorEnSi: error

@@ -68,15 +68,15 @@ const updateRestaurante = async(id,data) => {
     }
 
 
-    /*
-        AGREGAR LA VALIDACION DE ID_USUARIO PARA COMPROBAR QUE EXISTA
-        POR LO QUE SI NO EXISTE NO SE PUEDE CREAR HACIENDO QUE LANZE UN ERROR
-    
-    
-    */
+    const [usuarioExistente] = await db.query(`SELECT id FROM Usuarios WHERE id = ?`,
+        [data.id_usuario]);
 
+    
+    if(usuarioExistente.length === 0){
+        throw new Error('USUARIO INEXISTENTE');        
+    }
 
-  const datosParaActualizarFormatoTexto = datosParaActualizar.join(" , ") 
+   const datosParaActualizarFormatoTexto = datosParaActualizar.join(" , ") 
 
     if(datosParaActualizarFormatoTexto !== undefined){
         const [resultado] = await db.query(`UPDATE Restaurantes SET ${datosParaActualizarFormatoTexto} WHERE id = ?`,
