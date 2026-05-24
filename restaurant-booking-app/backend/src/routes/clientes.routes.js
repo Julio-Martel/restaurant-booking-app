@@ -1,12 +1,12 @@
 import express from 'express';
 import { authToken } from '../middlewares/auth.middleware.js';
 import { permisoCliente } from '../middlewares/permisos.middlewares.js';
-import { verRestaurantes, crearReserva, verTodasTusReservas, cancelarReserva} from '../controllers/cliente.controllers.js';
+import { verTodosLosRestaurantes, crearReserva, verTodasTusReservas, cancelarReserva} from '../controllers/cliente.controllers.js';
 
 const clienteRoutes = express.Router();
 
 //PARA VER TODOS LOS RESTAURANTES
-clienteRoutes.get('/search', authToken, permisoCliente, verRestaurantes);
+clienteRoutes.get('/search', authToken, permisoCliente, verTodosLosRestaurantes);
 
 //PARA CREAR UNA RESERVA
 clienteRoutes.post('/', authToken, permisoCliente, crearReserva);
