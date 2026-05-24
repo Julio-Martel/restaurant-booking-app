@@ -92,7 +92,6 @@ const cancelReserva = async(id_reserva) => {
     }
 
     return reservaCancelada;
-
 }
 
 const actualizarEstadoReserva = async(id,estado) => {
