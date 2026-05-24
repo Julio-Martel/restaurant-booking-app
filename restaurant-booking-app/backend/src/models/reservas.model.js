@@ -95,8 +95,19 @@ const cancelReserva = async(id_reserva) => {
 
 }
 
+const actualizarEstadoReserva = async(id,estado) => {
+    const [estadoReservaActualizado] = await db.query(`UPDATE Reservas SET estado = ? WHERE id = ? AND estado = ?`,[estado,id,'pendiente']);
+
+    if(estadoReservaActualizado.affectedRows === 0){
+        throw new Error('EL id es incorrecto o el estado ya esta cofirmado o cancelado');
+    }
+
+    return estadoReservaActualizado;
+}
+
 export {
     createReserva,
     obtenerReservas,
-    cancelReserva
+    cancelReserva,
+    actualizarEstadoReserva
 };
