@@ -99,15 +99,25 @@ const confirmarReservas = async(req,res) => {
         return res.send('DEBE CONFIRMAR|RECHAZAR|CANCELAR LA RESERVA');
     }
 
-    const {id,estado} = req.body;
+    const estado = req.body.estado;
+    const id = req.params.id;
 
-    if(estado !== 'confirmado' || estado !== 'rechazado' || estado !== 'cancelado'){
+console.log(id);
+console.log(typeof id);
+
+console.log(estado);
+console.log(typeof estado);
+
+    if(estado !== 'confirmado' && estado !== 'rechazado' && estado !== 'cancelado'){
         return res.send('Ingrese confirmad, rechazado o cancelado');
     }
 
     try{
         const estadoActualizado = await actualizarEstadoReserva(id,estado);
 
+        res.status(200).json({
+            mensaje: 'Reserva actualizada'
+        })
 
     } catch(error){
         if(error.message === 'EL id es incorrecto o el estado ya esta cofirmado o cancelado'){
@@ -126,5 +136,6 @@ const confirmarReservas = async(req,res) => {
 export {
     crearRestaurante,
     verSusRestaurantes,
-    actualizarRestaurante
+    actualizarRestaurante,
+    confirmarReservas
 };
