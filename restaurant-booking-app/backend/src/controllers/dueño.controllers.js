@@ -1,5 +1,5 @@
 import { createRestaurante, verificarRestaurante, verRestaurantesPorId, updateRestaurante } from "./restaurante.model.js";
-import { actualizarEstadoReserva } from "../models/reservas.model.js";
+import { actualizarEstadoReserva, obtenerReservas, obtenerReservasSegunElRestaurante } from "../models/reservas.model.js";
 
 const crearRestaurante = async(req,res) => {
     if(!req.body || Object.keys(req.body).length === 0){
@@ -130,6 +130,19 @@ console.log(typeof estado);
             mensaje: 'ERROR DEL SERVIDOR'
         })
     
+    }
+}
+
+const verSusReservas = async(req,res) => {
+    try{
+        const tusRestaurantes = await obtenerReservasSegunElRestaurante(req.usuario.id);
+
+        /*PENSAR QUE SI SOY DUEÑO QUIERO VER LAS RESERVAS DE
+        TODOS MIS RESTAURANTES O BIEN, FILTRAR EL RESTAURANTE ASIGNADO
+        A DICHA RESERVA*/
+
+    } catch(error){
+
     }
 }
 
