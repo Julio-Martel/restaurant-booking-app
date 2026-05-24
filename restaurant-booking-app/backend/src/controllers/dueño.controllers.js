@@ -1,4 +1,5 @@
 import { createRestaurante, verificarRestaurante, verRestaurantesPorId, updateRestaurante } from "./restaurante.model.js";
+import { actualizarEstadoReserva } from "../models/reservas.model.js";
 
 const crearRestaurante = async(req,res) => {
     if(!req.body || Object.keys(req.body).length === 0){
@@ -88,6 +89,35 @@ const actualizarRestaurante = async(req,res) => {
         return res.status(500).json({
             mensaje: 'ERROR DEL SERVIDOR',
             errorEnSi: error
+        })
+    
+    }
+}
+
+const confirmarReservas = async(req,res) => {
+    if(!req.body || Object.keys(req.body).length === 0){
+        return res.send('DEBE CONFIRMAR|RECHAZAR|CANCELAR LA RESERVA');
+    }
+
+    const {id,estado} = req.body;
+
+    if(estado !== 'confirmado' || estado !== 'rechazado' || estado !== 'cancelado'){
+        return res.send('Ingrese confirmad, rechazado o cancelado');
+    }
+
+    try{
+        const estadoActualizado = await actualizarEstadoReserva(id,estado);
+
+
+    } catch(error){
+        if(error.message === 'EL id es incorrecto o el estado ya esta cofirmado o cancelado'){
+            return res.status(404).json({
+                mensaje: 'no se pudo completar la actualizacion del estado de la reserva'
+            })
+        }
+        
+        return res.status(500).json({
+            mensaje: 'ERROR DEL SERVIDOR'
         })
     
     }

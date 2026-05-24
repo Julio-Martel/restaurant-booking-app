@@ -14,6 +14,8 @@ duenioRoutes.get('/restaurantes', authToken, permisoDuenio, verSusRestaurantes);
 //ACTUALIZAR UN RESTAURANTE
 duenioRoutes.patch('/:id', authToken, permisoDuenio, actualizarRestaurante)
 
+//CONFIRMAR RESERVAS
+duenioRoutes.patch('/confirm/:id', authToken, permisoDuenio, );
 
 export default duenioRoutes;
 
