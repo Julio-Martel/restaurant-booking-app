@@ -84,6 +84,27 @@ const obtenerReservas = async(id_usuario) => {
     return todasLasReservas;
 }
 
+const obtenerTodasSusReservas = async(id_duenio) => {
+    const [todosLosRestaurantesDeTalDueño] = await db.query(`SELECT * FROM Restaurantes WHERE id = ?`,[id_duenio]);
+
+    for(const restaurante of todosLosRestaurantesDeTalDueño){
+        let restauranteId = restaurante.id;
+        
+        /*
+        
+            AGREGAR LA SOLUCION DE NO ESTAR TENIENDO MUCHAS CONSULTAS
+        
+        
+        */
+    
+    }
+
+
+
+
+}
+
+
 const cancelReserva = async(id_reserva) => {
     const [reservaCancelada] = await db.query(`UPDATE Reservas SET estado = ? WHERE id = ?`,[id_reserva, 'cancelada']);
 
@@ -108,5 +129,6 @@ export {
     createReserva,
     obtenerReservas,
     cancelReserva,
-    actualizarEstadoReserva
+    actualizarEstadoReserva,
+    obtenerReservasSegunElRestaurante
 };
