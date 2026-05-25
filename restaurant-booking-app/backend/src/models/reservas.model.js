@@ -85,20 +85,13 @@ const obtenerReservas = async(id_usuario) => {
 }
 
 const obtenerTodasSusReservas = async(id_duenio) => {
-    const [todosLosRestaurantesDeTalDueño] = await db.query(`SELECT * FROM Restaurantes WHERE id = ?`,[id_duenio]);
 
-    for(const restaurante of todosLosRestaurantesDeTalDueño){
-        let restauranteId = restaurante.id;
-        
-        /*
-        
-            AGREGAR LA SOLUCION DE NO ESTAR TENIENDO MUCHAS CONSULTAS
-        
-        
-        */
-    
-    }
+    const [todasLasReservasDeUnDeterminadoDuenio] = await db.query(`SELECT * FROM Usuarios JOIN Restaurantes 
+        ON usuarios.id  = Restaurantes.id_usuario  WHERE usuarios.id = ?`,[id_duenio]);
 
+    /*
+        SE APLICO UN JOIN PARA QUE ME TRAIGA LOS RESTURANTES CON TAL DUEÑO
+    */
 
 
 
@@ -130,5 +123,5 @@ export {
     obtenerReservas,
     cancelReserva,
     actualizarEstadoReserva,
-    obtenerReservasSegunElRestaurante
+    obtenerTodasSusReservas
 };
