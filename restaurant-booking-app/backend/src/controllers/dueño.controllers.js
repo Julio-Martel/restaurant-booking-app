@@ -1,5 +1,5 @@
 import { createRestaurante, verificarRestaurante, verRestaurantesPorId, updateRestaurante } from "./restaurante.model.js";
-import { actualizarEstadoReserva, obtenerReservas, obtenerReservasSegunElRestaurante } from "../models/reservas.model.js";
+import { actualizarEstadoReserva, obtenerReservas, obtenerTodasSusReservas } from "../models/reservas.model.js";
 
 const crearRestaurante = async(req,res) => {
     if(!req.body || Object.keys(req.body).length === 0){
@@ -133,13 +133,14 @@ console.log(typeof estado);
     }
 }
 
-const verSusReservas = async(req,res) => {
+const verSusReservasDeTodosSusRestaurantes = async(req,res) => {
     try{
-        const tusRestaurantes = await obtenerReservasSegunElRestaurante(req.usuario.id);
+        const todasLasReservasSegunElDueño = await obtenerTodasSusReservas(req.usuario.id);
 
-        /*PENSAR QUE SI SOY DUEÑO QUIERO VER LAS RESERVAS DE
-        TODOS MIS RESTAURANTES O BIEN, FILTRAR EL RESTAURANTE ASIGNADO
-        A DICHA RESERVA*/
+        return res.status(202).json({
+            mensaje: 'Todas las reservas asociada/s a tus restaurantes',
+            reservas: todasLasReservasSegunElDueño
+        })
 
     } catch(error){
 
@@ -150,5 +151,6 @@ export {
     crearRestaurante,
     verSusRestaurantes,
     actualizarRestaurante,
-    confirmarReservas
+    confirmarReservas,
+    verSusReservasDeTodosSusRestaurantes
 };

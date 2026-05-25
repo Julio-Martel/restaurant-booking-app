@@ -2,7 +2,7 @@ import express from 'express';
 import { authToken } from '../middlewares/auth.middleware.js';
 import { permisoDuenio } from '../middlewares/permisos.middlewares.js';
 import { crearRestaurante, verSusRestaurantes, actualizarRestaurante} from './dueño.controllers.js';
-import { confirmarReservas } from './dueño.controllers.js';
+import { confirmarReservas,verSusReservasDeTodosSusRestaurantes } from './dueño.controllers.js';
 
 const duenioRoutes = express.Router();
 
@@ -15,8 +15,8 @@ duenioRoutes.get('/restaurantes', authToken, permisoDuenio, verSusRestaurantes);
 //ACTUALIZAR UN RESTAURANTE
 duenioRoutes.patch('/:id', authToken, permisoDuenio, actualizarRestaurante)
 
-//VER RESERVAS DE SU RESTAURANTE
-duenioRoutes.get('/reservas/:id', authToken, permisoDuenio, )
+//VER RESERVAS DE SUs RESTAURANTEs
+duenioRoutes.get('/reservas/:id', authToken, permisoDuenio, verSusReservasDeTodosSusRestaurantes)
 
 //CONFIRMAR RESERVAS
 duenioRoutes.patch('/confirmar/:id',authToken, permisoDuenio, confirmarReservas);
