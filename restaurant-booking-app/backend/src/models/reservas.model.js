@@ -114,7 +114,6 @@ const obtenerTodasSusReservas = async(id_duenio,id_Restaurante) => {
         }        
     
         reservasFiltradas = todasLasReservasDeUnDeterminadoDuenioYRestaurante
-    
     }
 
     return reservasFiltradas;    
