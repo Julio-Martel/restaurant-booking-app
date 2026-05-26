@@ -129,7 +129,8 @@ const confirmarReservas = async(req,res) => {
 
 const verSusReservasDeTodosSusRestaurantes = async(req,res) => {
     try{
-        const todasLasReservasSegunElDueño = await obtenerTodasSusReservas(req.use.id);
+        const id = req.query.id;
+        const todasLasReservasSegunElDueño = await obtenerTodasSusReservas(req.user.id,id);
 
         return res.status(202).json({
             mensaje: 'Todas las reservas asociada/s a tus restaurantes',
@@ -143,7 +144,11 @@ const verSusReservasDeTodosSusRestaurantes = async(req,res) => {
             })
         }
     
-        console.log(error)
+        if(error.message === 'NO HAY RESERVAS DE ESTE RESTAURANTE EN ESPECIFICO'){
+            return res.status(404).json({
+                mensaje: 'No hay reservas de ese restaurante en especifico'
+            })
+        }
 
         return res.status(500).json({
             mensaje: 'ERROR DEL SERVIDOR',

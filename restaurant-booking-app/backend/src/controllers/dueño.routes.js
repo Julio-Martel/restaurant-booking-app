@@ -16,7 +16,7 @@ duenioRoutes.get('/restaurantes', authToken, permisoDuenio, verSusRestaurantes);
 duenioRoutes.patch('/:id', authToken, permisoDuenio, actualizarRestaurante)
 
 //VER RESERVAS DE SUs RESTAURANTEs
-duenioRoutes.get('/reservas', verSusReservasDeTodosSusRestaurantes)
+duenioRoutes.get('/reservas', authToken, permisoDuenio, verSusReservasDeTodosSusRestaurantes)
 
 //CONFIRMAR RESERVAS
 duenioRoutes.patch('/confirmar/:id',authToken, permisoDuenio, confirmarReservas);
