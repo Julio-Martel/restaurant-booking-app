@@ -11,7 +11,7 @@ clienteRoutes.get('/search', authToken, permisoCliente, verTodosLosRestaurantes)
 //PARA CREAR UNA RESERVA
 clienteRoutes.post('/', authToken, permisoCliente, crearReserva);
 
-//PARA VER TODAS LAS RESERVAS HECHAS POR EL CLIENTE
+//PARA VER TODAS LAS RESERVAS HECHAS POR EL CLIENTE O FILTRAR POR RESTAURANTE
 clienteRoutes.get('/reservas', authToken, permisoCliente, verTodasTusReservas);
 
 //CANCELAR UNA RESERVA
