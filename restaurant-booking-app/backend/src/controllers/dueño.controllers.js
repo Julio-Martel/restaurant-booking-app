@@ -102,12 +102,6 @@ const confirmarReservas = async(req,res) => {
     const estado = req.body.estado;
     const id = req.params.id;
 
-console.log(id);
-console.log(typeof id);
-
-console.log(estado);
-console.log(typeof estado);
-
     if(estado !== 'confirmado' && estado !== 'rechazado' && estado !== 'cancelado'){
         return res.send('Ingrese confirmad, rechazado o cancelado');
     }
@@ -135,7 +129,7 @@ console.log(typeof estado);
 
 const verSusReservasDeTodosSusRestaurantes = async(req,res) => {
     try{
-        const todasLasReservasSegunElDueño = await obtenerTodasSusReservas(4);
+        const todasLasReservasSegunElDueño = await obtenerTodasSusReservas(req.use.id);
 
         return res.status(202).json({
             mensaje: 'Todas las reservas asociada/s a tus restaurantes',
