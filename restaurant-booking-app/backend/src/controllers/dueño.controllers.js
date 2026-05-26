@@ -22,7 +22,7 @@ const crearRestaurante = async(req,res) => {
             })
         }
 
-        const resultado = await createRestaurante(nombre, direccion, capacidad, id_usuario);
+        const resultado = await createRestaurante(nombre, direccion, capacidad, req.user.id);
     
         res.status(200).json({
             mensaje: 'Restaurante creado'

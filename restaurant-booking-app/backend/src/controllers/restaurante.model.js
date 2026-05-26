@@ -24,7 +24,7 @@ const verificarRestaurante = async(id) => {
 
 const createRestaurante = async(nombre, direccion, capacidad, id_usuario) => {
 
-    const [restauranteExistenteMedianteNombre] = await db.query(`SELECT * FROM Restaurante WHERE nombre = ?`,[nombre]);
+    const [restauranteExistenteMedianteNombre] = await db.query(`SELECT * FROM Restaurantes WHERE nombre = ?`,[nombre]);
 
     if(restauranteExistenteMedianteNombre.length !== 0){
         throw new Error('YA EXISTE UN RESTAURANTE CON ESE NOMBRE');
@@ -79,7 +79,7 @@ const updateRestaurante = async(id,data) => {
    const datosParaActualizarFormatoTexto = datosParaActualizar.join(" , ") 
 
     if(datosParaActualizarFormatoTexto !== undefined){
-        const [resultado] = await db.query(`UPDATE Restaurantes SET ${datosParaActualizarFormatoTexto} WHERE id = ?`,
+        const [resultado] = await db.query(`UPDATE Restaurantes SET f${datosParaActualizarFormatoTexto} WHERE id = ?`,
             [...valores, id])
     
         return resultado;      
