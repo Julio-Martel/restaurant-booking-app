@@ -135,7 +135,7 @@ console.log(typeof estado);
 
 const verSusReservasDeTodosSusRestaurantes = async(req,res) => {
     try{
-        const todasLasReservasSegunElDueño = await obtenerTodasSusReservas(req.usuario.id);
+        const todasLasReservasSegunElDueño = await obtenerTodasSusReservas(4);
 
         return res.status(202).json({
             mensaje: 'Todas las reservas asociada/s a tus restaurantes',
@@ -143,7 +143,18 @@ const verSusReservasDeTodosSusRestaurantes = async(req,res) => {
         })
 
     } catch(error){
+        if(error.message === 'NO HAY RESERVAS'){
+            return res.status(404).json({
+                mensaje: 'No hay reservas en ninguno de tus restaurantes'
+            })
+        }
+    
+        console.log(error)
 
+        return res.status(500).json({
+            mensaje: 'ERROR DEL SERVIDOR',
+            verError: error
+        })
     }
 }
 
