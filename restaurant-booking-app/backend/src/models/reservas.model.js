@@ -84,19 +84,41 @@ const obtenerReservas = async(id_usuario) => {
     return todasLasReservas;
 }
 
-const obtenerTodasSusReservas = async(id_duenio) => {
+const obtenerTodasSusReservas = async(id_duenio,id_Restaurante) => {
 
-    const [todasLasReservasDeUnDeterminadoDuenio] = await db.query(`SELECT * FROM Usuarios JOIN Restaurantes 
-        ON usuarios.id  = Restaurantes.id_usuario  WHERE usuarios.id = ?`,[id_duenio]);
+    let reservasFiltradas;
 
-    /*
-        SE APLICO UN JOIN PARA QUE ME TRAIGA LOS RESTURANTES CON TAL DUEÑO
-    */
+    if(id_Restaurante === undefined){
 
+        const [todasLasReservasDeUnDeterminadoDuenio] = await db.query(`SELECT * FROM Usuarios JOIN Restaurantes
+            ON usuarios.id = Restaurantes.id_usuario JOIN 
+            Reservas ON Restaurantes.id = Reservas.id_restaurante  
+            WHERE usuarios.id = ?`,
+            [id_duenio]);
 
+        if(todasLasReservasDeUnDeterminadoDuenio.length === 0){
+            throw new Error('NO HAY RESERVAS');
+        }
 
+        reservasFiltradas = todasLasReservasDeUnDeterminadoDuenio;
+
+    } else {
+        const [todasLasReservasDeUnDeterminadoDuenioYRestaurante] = await db.query(`SELECT * FROM Usuarios JOIN Restaurantes
+            ON usuarios.id = Restaurantes.id_usuario JOIN 
+            Reservas ON Restaurantes.id = Reservas.id_restaurante 
+             WHERE usuarios.id = ? AND Restaurantes.id = ?`,
+             [id_duenio,id_Restaurante]);
+
+        if(todasLasReservasDeUnDeterminadoDuenioYRestaurante.length === 0){
+            throw new Error('NO HAY RESERVAS DE ESTE RESTAURANTE EN ESPECIFICO');
+        }        
+    
+        reservasFiltradas = todasLasReservasDeUnDeterminadoDuenioYRestaurante
+    
+    }
+
+    return reservasFiltradas;    
 }
-
 
 const cancelReserva = async(id_reserva) => {
     const [reservaCancelada] = await db.query(`UPDATE Reservas SET estado = ? WHERE id = ?`,[id_reserva, 'cancelada']);
