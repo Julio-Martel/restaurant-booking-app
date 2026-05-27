@@ -11,7 +11,7 @@ const crearReserva = async(req,res) => {
             });
         }
 
-        const reservaCreada = await createReserva(req.body);
+        const reservaCreada = await createReserva(req.body,req.user.id);
 
         return res.status(201).json({
             mensaje: 'Reserva creada',
@@ -112,7 +112,6 @@ const verTodosLosRestaurantes = async(req,res) => {
         })
     }
 }
-
 
 export {
     verTodosLosRestaurantes,
