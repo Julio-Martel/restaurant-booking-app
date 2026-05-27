@@ -1,18 +1,17 @@
 import db from '../config/db.js';
 
-const createReserva = async(data) => {
+const createReserva = async(data,id_usuario) => {
 
     const {
         fecha_hora,
         cantidad_personas,
         estado,
-        id_cliente,
         id_restaurante           
     } = data;
 
     const [clienteExiste] = await db.query(
         `SELECT * FROM Usuarios WHERE id = ?`,
-        [id_cliente]
+        [id_usuario]
     );
 
     if(clienteExiste.length === 0){
@@ -66,7 +65,7 @@ const createReserva = async(data) => {
             fecha_hora,
             cantidad_personas,
             'pendiente',
-            id_cliente, 
+            id_usuario, 
             id_restaurante
         ]
     );
